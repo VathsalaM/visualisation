@@ -3,13 +3,13 @@ var generate_randomData = function(){
 	for(var i=0;i<100;i++){
 	    	randomNumbers.push(Math.round(Math.random(1,100)*10));
 	}
-	return randomNumbers.map(function(e,i){return {"index":i,"data":e}});	
+	return randomNumbers.map(function(e,i){console.log(e,i);return {"index":i,"data":e}});	
 }
 
 var addNewData = function(oldData){
 	oldData.shift();
 	oldData.push({"index":oldData.length,"data":Math.round(Math.random(1,100)*10)});
-	return oldData;
+	return oldData.map(function(e,i){e['index']=i; return e;})
 }
 
 const WIDTH = 1280;
@@ -70,33 +70,35 @@ var createChart = function(){
 		.classed('grid', true);
 
 	var data = generate_randomData();
-	loadChart(data);
+	loadBarChart(data);
+	// loadLineChart(data);
 
 	setInterval(function(){
 		data = addNewData(data);
-		loadChart(data);
+		// console.log(data)
+		loadBarChart(data);
+		// loadLineChart(data);
 	},500)
 }
 
-var loadChart = function(data){
-		// console.log(data.length)
+var loadLineChart = function(data){
 
 	var dataRange = d3.extent(data, function(quote){
-	    return quote['index'];
-	});
-
-	var indexRange = d3.extent(data, function(quote){
 	    return quote['data'];
 	});
 
+	var indexRange = d3.extent(data, function(quote){
+	    return quote['index'];
+	});
+
 	var svg = d3.select('svg');
-	svg.selectAll('.random_path').remove();
+	svg.selectAll('.random').remove();
 	var g = svg.append('g')
 		.attr('transform',  translate(MARGIN, MARGIN))
-		.classed('random_path',true);
+		.classed('random',true);
 
-	xScale.domain(dataRange);
-	yScale.domain(indexRange);
+	xScale.domain(indexRange);
+	yScale.domain(dataRange);
 
 	var line = d3.line()
 		.x(function(q){return xScale(q['index'])})
@@ -107,6 +109,36 @@ var loadChart = function(data){
 		.attr('d', line(data));
 
 	g.selectAll('path').exit().remove();
+};
+
+var loadBarChart = function(data){
+
+	var dataRange = d3.extent(data, function(quote){
+	    return quote['data'];
+	});
+
+	var indexRange = d3.extent(data, function(quote){
+	    return quote['index'];
+	});
+
+	var svg = d3.select('svg');
+	svg.selectAll('.random').remove();
+	var g = svg.append('g')
+		.attr('transform',  translate(MARGIN, MARGIN))
+		.classed('random',true);
+
+	xScale.domain(indexRange);
+	yScale.domain(dataRange);
+
+	g.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return xScale(d['index']) })
+      .attr("y", function(d) { return yScale(d['data']) })
+      .attr("width", 7)
+      .attr("height", function(d) { return INNER_HEIGHT - yScale(d.data); });
+	g.selectAll('.bar').exit().remove();
 };
 
 window.onload = createChart;
