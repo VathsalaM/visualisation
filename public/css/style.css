@@ -2,6 +2,8 @@
 	border:1px solid black;
 }
 
+div.inline { float:left; }
+
 svg{
 	border:1px solid blue;
 }
