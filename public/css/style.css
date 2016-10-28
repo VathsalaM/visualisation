@@ -4,4 +4,5 @@
 
 .bars{
 	border: 1px solid white;
+	position: absolute;
 }
