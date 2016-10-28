@@ -1,27 +1,7 @@
-.container{
-	border:1px solid black;
-}
-
-div.inline { float:left; }
-
-svg{
+/*.container{
 	border:1px solid blue;
-}
+}*/
 
-.grid{
-	stroke: lightgrey;
-}
-
-.line{
-	stroke: steelblue;
-	fill:none;
-}
-
-.bar{
-	stroke: steelblue;
-	fill:steelblue;
-}
-
-h1 {
-    text-align: center;
+.bars{
+	border: 1px solid white;
 }
