@@ -1,179 +1,26 @@
-var generate_randomData = function(n){
+var randomNumberGenerator = function(n){
 	var randomNumbers = [];
 	for(var i=0;i<n;i++){
-	    	randomNumbers.push(Math.round(Math.random(1,100)*10));
+		randomNumbers.push({"value":Math.round(Math.random()*100),"index":i});
 	}
-	return randomNumbers.map(function(e,i){return {"index":i,"data":e}});	
+	return randomNumbers;
 }
 
-var addNewData = function(oldData){
-	oldData.shift();
-	oldData.push({"index":oldData.length,"data":Math.round(Math.random(1,100)*10)});
-	return oldData.map(function(e,i){e['index']=i; return e;})
+var loadChart = function(){
+	var sampleData = randomNumberGenerator(5);
+	var svg = d3.select(".container")
+	svg.selectAll("p").data(sampleData).enter()
+		.append('p')
+		.text(function(d){return d.value});
+	setTimeout(function(){
+		console.log("------->");
+		console.log("oldData: ",JSON.stringify(sampleData));
+		sampleData.shift();
+		sampleData.push({"value":Math.round(Math.random()*100),"index":5})
+		console.log("newData: ",JSON.stringify(sampleData));
+		svg.selectAll("p").data(sampleData)
+		.text(function(d){return d.value});
+	},5000)
 }
 
-var drawChart = function(){
-	renderChart("lineChart");
-	renderChart("barChart");
-}
-
-const WIDTH = 700;
-const HEIGHT = 500;
-const MARGIN = 30;
-
-const INNER_WIDTH = WIDTH - 2 * MARGIN;
-const INNER_HEIGHT = HEIGHT - 2 * MARGIN;
-
-var xScale,yScale,_xAxis,_yAxis,intervals,isPaused;
-
-var translate = function(x, y){
-	return "translate("+x+","+y+")";
-};
-
-var createChart = function(classType){
-	var svg = d3.select('.container').select("."+classType).append('svg')
-		.attr('width', WIDTH)
-		.attr('height', HEIGHT);
-
-	xScale = d3.scaleLinear()
-	    .domain([0,100])
-	    .range([0, INNER_WIDTH]);
-
-	yScale = d3.scaleLinear()
-	    .domain([0,100])
-	    .range([INNER_HEIGHT, 0]);
-
-	_xAxis = d3.axisBottom(xScale).ticks(10);
-	_yAxis = d3.axisLeft(yScale).ticks(10);
-
-	svg.append('g')
-		.attr('transform', translate(MARGIN, HEIGHT - MARGIN))
-		.call(_xAxis)
-		.classed('xAxis', true);
-
-	svg.selectAll('.xAxis .tick')
-		.append('line')
-		.attr('x1', 0)
-		.attr('y1', 0)
-		.attr('x2', 0)
-		.attr('y2', -INNER_HEIGHT)
-		.classed('grid', true);
-
-	svg.append('g')
-		.attr('transform', translate(MARGIN, MARGIN))
-		.classed('yAxis', true)
-		.call(_yAxis);
-
-	svg.selectAll('.yAxis .tick')
-		.append('line')
-		.attr('x1', 0)
-		.attr('y1', 0)
-		.attr('x2', INNER_WIDTH)
-		.attr('y2', 0)
-		.classed('grid', true);
-}
-
-var loadLineChart = function(data){
-
-	var dataRange = d3.extent(data, function(quote){
-	    return quote['data'];
-	});
-
-	var indexRange = d3.extent(data, function(quote){
-	    return quote['index'];
-	});
-
-	var svg = d3.select('.lineChart').select('svg');
-	svg.selectAll('.random').remove();
-	var g = svg.append('g')
-		.attr('transform',  translate(MARGIN, MARGIN))
-		.classed('random',true);
-
-	xScale.domain(indexRange);
-	yScale.domain(dataRange);
-
-	var line = d3.line()
-		.x(function(q){return xScale(q['index'])})
-		.y(function(q){return yScale(q['data'])});
-
-	g.append('path')
-		.classed('line', true)
-		.attr('d', line(data));
-
-	g.selectAll('path').exit().remove();
-};
-
-var loadBarChart = function(data){
-	var dataRange = d3.extent(data, function(quote){
-	    return quote['data'];
-	});
-
-	var indexRange = d3.extent(data, function(quote){
-	    return quote['index'];
-	});
-
-	var svg = d3.select('.barChart').select('svg');
-	svg.selectAll('.random').remove();
-	var g = svg.append('g')
-		.attr('transform',  translate(MARGIN, MARGIN))
-		.classed('random',true);
-
-	xScale.domain(indexRange);
-	yScale.domain(dataRange);
-
-	g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("transform","rotate(0)")
-      .attr("x", function(d) { return xScale(d['index']) })
-      .attr("y", function(d) { return yScale(d['data']) })
-      .attr("width", 10)
-      .attr("height", function(d) { console.log(INNER_HEIGHT - yScale(d.data));return INNER_HEIGHT - yScale(d.data); });
-	g.selectAll('.bar').exit().remove();
-
-	// var rect = g.selectAll("rect")
- //    .data(data,function(d){ return d['data']})
-
- //    rect.enter().insert("svg:rect","line")
- //      .attr("x", function(d) { return xScale(d['index']) })
- //      .attr("y", function(d) { return yScale(d['data']) })
- //      .attr("width", 7)
- //      .attr("height", function(d) { return INNER_HEIGHT - yScale(d.data); })
- //      .transition()
- //      	.duration(10000)
- //      	.attr("x",function(d){return d["data"]});
-
- //  	// rect.transition()
- //  	// 	.duration(10000)
- //  	// 	.attr("x",function(d){return d["data"]})
-
- //  	rect.exit().transition()
- //  		.duration(10000)
- //  		.attr("x",function(d){ return d["data"]})
- //  		.remove();
-
-};
-
-var charts = {"lineChart":loadLineChart,"barChart":loadBarChart};
-
-var data = generate_randomData(50);
-var renderChart = function(chartType){
-	createChart(chartType);
-	charts[chartType](data);
-	intervals = intervals || [];
-	charts[chartType](data)
-	newInterval = setInterval(function(){
-		if(!isPaused) {
-			data = addNewData(data);
-			charts[chartType](data);
-		}
-	},400)
-	intervals.push(newInterval);
-}
-
-var pause = function(){
-	isPaused = !isPaused;
-}
-
-window.onload = drawChart;
+window.onload = loadChart;
