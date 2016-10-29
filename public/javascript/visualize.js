@@ -7,12 +7,9 @@ var randomNumberGenerator = function(n){
 	return randomNumbers;
 }
 var sampleData = randomNumberGenerator(20);
-var padding = 5;
-var isPaused = false;
 
 var loadChart = function(){
-
-	var h = d3.scaleLinear()
+	var padding = 5;
 
 	var colors = d3.scaleLinear()
 			.domain([0,100])
@@ -20,21 +17,17 @@ var loadChart = function(){
 
 	var container = d3.select(".container");
 
-	var divs = container.selectAll(".bars").data(sampleData,function(d){return d;});
-		divs.enter().append('div')
+	var divs = container.selectAll(".bars").data(sampleData,function(d){return d.key;});
+	divs.enter().append('div')
 		.style('width',function(d){ return (d.data*padding)+"px"})
 		.style('height','30px')
 		.style('background-color',function(d){ return colors(d.data)})
 		.classed('bars',true)
 		.style("left", 0)
-		.style("top",function(d){return h((sampleData.indexOf(d)*30))+"px"})
+		.style("top",function(d){return (sampleData.indexOf(d)*30)+"px"})
 		.text(function(d){return d.data});
 
 	divs.exit().remove();
-}
-
-var pause = function(){
-	isPaused = !isPaused;
 }
 
 setInterval(function(){
