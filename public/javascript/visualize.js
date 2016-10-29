@@ -7,6 +7,7 @@ var randomNumberGenerator = function(n){
 	return randomNumbers;
 }
 var sampleData = randomNumberGenerator(20);
+var isPaused = false;
 
 var loadChart = function(){
 	var padding = 5;
@@ -31,10 +32,21 @@ var loadChart = function(){
 
 setInterval(function(){
 	var data = Math.round(Math.random()*100);
+	var dataArray = sampleData.map(function(d){return d.data})
+	while(dataArray.indexOf(data)!=-1){
+		data = Math.round(Math.random()*100);
+	}
 	var i = sampleData.length;
 	sampleData.shift();
 	sampleData.push({"data":data,"key":i+""+(data/(data+i))})
-	loadChart();
+	if(!isPaused){
+		console.log({"data":data,"key":i+""+(data/(data+i))})
+		loadChart();		
+	}
 },500)
+
+var pause = function(){
+	isPaused = !isPaused;
+}
 
 window.onload = loadChart;
