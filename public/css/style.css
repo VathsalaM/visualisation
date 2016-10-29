@@ -1,8 +1,32 @@
-/*.container{
-	border:1px solid blue;
-}*/
-
 .bars{
 	border: 1px solid white;
-	/*position: absolute;*/
+}
+
+.sortFields{
+	float:left;
+	height:20px;
+}
+
+.subjectDivs{
+	float:left;
+	height:20px;
+	border: 1px solid white;
+	border-radius: 10px;
+	width:70px;
+	text-align:center;
+	color: white;
+	font-family: sans-serif;
+	font-size: 14px;	
+	font-weight: 200;
+}
+
+.data{
+	height: 20px;
+	border: 1px solid white;
+	border-radius: 10px;
+	text-align:center;
+	color: white;
+	font-family: sans-serif;
+	font-size: 14px;	
+	font-weight: 200;
 }
