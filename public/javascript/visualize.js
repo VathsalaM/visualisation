@@ -21,19 +21,18 @@ var loadChart = function(){
 	divs.enter().append('div')
 		.style('width',function(d){ return (d.data*padding)+"px"})
 		.style('height','30px')
-		.style('background-color',function(d){ return colors(d.data)})
+		.style('background-color',function(d,i){ return colors(d.data)})
 		.classed('bars',true)
 		.style("left", 0)
-		.style("top",function(d){return (sampleData.indexOf(d)*30)+"px"})
 		.text(function(d){return d.data});
 
 	divs.exit().remove();
 }
 
 setInterval(function(){
-	sampleData.shift();
 	var data = Math.round(Math.random()*100);
 	var i = sampleData.length;
+	sampleData.shift();
 	sampleData.push({"data":data,"key":i+""+(data/(data+i))})
 	loadChart();
 },500)
