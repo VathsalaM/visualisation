@@ -19,17 +19,16 @@ var visualize = function(){
 
 	var container = d3.select('.container')
 	var students = container.append('div').classed('students',true);
-	container.append('br');
-	var sortFields = container.append('div').text('Sort By: ').classed('sortFields',true).classed('label',true);
-	container.append('br');
-	var subjects = container.append('div').classed('subjects',true);
+	var sortFields = container.append('div').text('Sort By: ').classed('sortFields',true).style("top","370px");;
+	var subjects = container.append('div').classed('subjects',true).style("top","390px");;
 
 	var studentDiv = students.selectAll('div').data(studentData);
 	studentDiv.enter().append('div')
 		.text(function(d){return d.name+"  "+d.score})
 		.style("background-color",function(d){return colours(d.subject)})
 		.classed("data",true)
-		.style("width",function(d){return (d.score * 3)+"px"});
+		.style("width",function(d){return (d.score * 3)+"px"})
+		.style("top",function(d,i){ return (i*30)+"px"});
 	studentDiv.exit().remove();
 
 	var sortDiv = sortFields.selectAll('button').data(generateSortList());
@@ -52,7 +51,9 @@ var sortBy = function(field){
 		if(a[field] < b[field]) return -1;
     	if(a[field] > b[field]) return 1;
     	return 0;
-    })
+    }).transition().duration(750)
+    .ease(d3.easeLinear)
+    .style("top",function(d,i){return (i*30)+"px"})
 }
 
 var generateSubjectsList = function(){

@@ -2,9 +2,17 @@
 	border: 1px solid white;
 }
 
+.students{
+	position: absolute;
+
+}
+.subjects{
+	position: absolute;
+}
 .sortFields{
 	height:20px;
-	display: inline-block;
+	/*display: inline-block;*/
+	position: absolute;
 }
 
 .subjectDivs{
@@ -38,8 +46,11 @@ button{
 }
 
 .data{
-	height: 20px;
+	position: absolute;
+	height: 10px;
 	border: 1px solid white;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	border-radius: 10px;
 	text-align:center;
 	color: white;
