@@ -14,9 +14,8 @@ var studentData = [
 ];
 
 var visualize = function(){
-	var colours = d3.scaleOrdinal()
-					.domain(generateSubjectsList())
-					.range(d3.schemeCategory10)
+	var colours = d3.scaleOrdinal(d3.schemeCategory10)
+					.domain(generateSubjectsList());
 
 	var container = d3.select('.container')
 	var students = container.append('div').classed('students',true);
@@ -41,8 +40,7 @@ var visualize = function(){
 	})
 	.attr('onclick',function(d){ return "sortBy('"+d.fieldName+"')"});
 
-	subjects.append('p').text('Subjects: ').classed('subjectDivs',true).classed('label',true);
-	var subjectDiv = subjects.selectAll('div').data(generateSubjectsList());
+	subjects.append('p').text('Subjects: ').classed('subjectDivs',true).classed('label',true); var subjectDiv = subjects.selectAll('div').data(generateSubjectsList());
 	subjectDiv.enter().append('div')
 	.text(function(d){return d})
 	.classed('subjectDivs',true)
