@@ -1,4 +1,4 @@
-var studentData = [
+studentData = [
 	{name:'ramesh',subject:'maths',score:87},
 	{name:'suresh',subject:'maths',score:45},
 	{name:'pokemon',subject:'english',score:65},
@@ -13,37 +13,47 @@ var studentData = [
 	{name:'pokemon',subject:'social studies',score:32}
 ];
 
-var visualize = function(){
-	var colours = d3.scaleOrdinal(d3.schemeCategory10)
-					.domain(generateSubjectsList());
-
-	var container = d3.select('.container')
+var renderStudentsData = function(container,colours){
 	var students = container.append('div').classed('students',true);
-	var sortFields = container.append('div').text('Sort By: ').classed('sortFields',true).style("top","370px");;
-	var subjects = container.append('div').classed('subjects',true).style("top","390px");;
-
 	var studentDiv = students.selectAll('div').data(studentData);
 	studentDiv.enter().append('div')
-		.text(function(d){return d.name+"  "+d.score})
-		.style("background-color",function(d){return colours(d.subject)})
-		.classed("data",true)
-		.style("width",function(d){return (d.score * 3)+"px"})
-		.style("top",function(d,i){ return (i*30)+"px"});
+			.text(function(d){ return d.name+"  "+d.score})
+			.style("background-color",function(d){return colours(d.subject)})
+			.classed("data",true)
+			.style("width",function(d){ return (d.score * 3)+"px"})
+			.style("top",function(d,i){ return (i*21)+"px"});
 	studentDiv.exit().remove();
+}
 
+var renderSortFields = function(container){
+	var sortFields = container.append('div').text('Sort By: ').classed('sortFields',true);
 	var sortDiv = sortFields.selectAll('button').data(generateSortList());
 	sortDiv.enter().append('button')
-	.text(function(d){
-		var fieldName = d.fieldName;
-		return fieldName[0].toUpperCase() + fieldName.slice(1,fieldName.length)
-	})
+		.text(function(d){
+			var fieldName = d.fieldName;
+			return fieldName[0].toUpperCase() + fieldName.slice(1,fieldName.length)
+		})
 	.attr('onclick',function(d){ return "sortBy('"+d.fieldName+"')"});
+}
 
-	subjects.append('p').text('Subjects: ').classed('subjectDivs',true).classed('label',true); var subjectDiv = subjects.selectAll('div').data(generateSubjectsList());
+var renderSubjectFields = function(container,colours){
+	var subjects = container.append('div').text('Subjects: ').classed('subjects',true);
+	var subjectDiv = subjects.selectAll('div').data(generateSubjectsList());
 	subjectDiv.enter().append('div')
-	.text(function(d){return d})
-	.classed('subjectDivs',true)
-	.style('background-color',function(d){return colours(d)})
+		.text(function(d){ return d})
+		.classed('subjectDivs',true)
+		.style('background-color',function(d){ return colours(d)})
+
+}
+
+var visualizeStudentData = function(){
+	var colours = d3.scaleOrdinal(d3.schemeCategory10)
+					.domain(generateSubjectsList());
+	var container = d3.select('.container');	
+	renderStudentsData(container,colours);
+	renderSortFields(container);
+	renderSubjectFields(container,colours);
+
 }
 
 var sortBy = function(field){
@@ -53,7 +63,7 @@ var sortBy = function(field){
     	return 0;
     }).transition().duration(750)
     .ease(d3.easeLinear)
-    .style("top",function(d,i){return (i*30)+"px"})
+    .style("top",function(d,i){return (i*21)+"px"})
 }
 
 var generateSubjectsList = function(){
@@ -70,4 +80,4 @@ var generateSortList = function(){
 	return Object.keys(studentData[0]).map(function(fieldName){return {"fieldName":fieldName}})
 }
 
-visualize();
+visualizeStudentData();
