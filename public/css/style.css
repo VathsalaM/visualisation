@@ -9,31 +9,28 @@ body{
 
 }
 .subjects{
-	top:310px;
+	top:260px;
 	position: absolute;
 }
 .sortFields{
-	/*height:20px;*/
-	top:280px;
+	top:240px;
 	position: absolute;
 }
 
-.subjectDivs{
-	border: 1px solid white;
-	border-radius: 10px;
+.subjectDivs {
 	width:70px;
 	padding-bottom: 2px;
-	text-align:center;
 	color: white;
 	display: inline-block;
-}
-
-.label{
-	color: black;
+	border: 1.5px solid white;
+	padding-top: 1px;
+	border-radius: 7px;
+	text-align:center;
+	color: white;
 }
 
 button{
-	height: 25px;
+	height: 20px;
 	background-color: #E7E7E7;
 	border: 1px solid white;
 	border-radius: 10px;
@@ -43,11 +40,10 @@ button{
 
 .data{
 	position: absolute;
-	height: 20px;
-	border: 1px solid white;
-	/*padding-top: 2px;*/
-	/*padding-bottom: 2px;*/
-	border-radius: 10px;
+	height: 16px;
+	border: 1.5px solid white;
+	padding-top: 1px;
+	border-radius: 7px;
 	text-align:center;
 	color: white;
 }

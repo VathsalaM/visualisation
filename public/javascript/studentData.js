@@ -20,8 +20,8 @@ var renderStudentsData = function(container,colours){
 			.text(function(d){ return d.name+"  "+d.score})
 			.style("background-color",function(d){return colours(d.subject)})
 			.classed("data",true)
-			.style("width",function(d){ return (d.score * 3)+"px"})
-			.style("top",function(d,i){ return (i*21)+"px"});
+			.style("width",function(d){ return (d.score*3)+"px"})
+			.style("top",function(d,i){ return (i*18)+"px"});
 	studentDiv.exit().remove();
 }
 
@@ -63,7 +63,7 @@ var sortBy = function(field){
     	return 0;
     }).transition().duration(750)
     .ease(d3.easeLinear)
-    .style("top",function(d,i){return (i*21)+"px"})
+    .style("top",function(d,i){return (i*18)+"px"})
 }
 
 var generateSubjectsList = function(){
