@@ -43,12 +43,14 @@ var renderSubjectFields = function(container,colours){
 		.text(function(d){ return d})
 		.classed('subjectDivs',true)
 		.style('background-color',function(d){ return colours(d)})
+		.style("width",function(d){ return (d.length*8)+"px"})
 
 }
 
 var visualizeStudentData = function(){
 	var colours = d3.scaleOrdinal(d3.schemeCategory10)
 					.domain(generateSubjectsList());
+
 	var container = d3.select('.container');	
 	renderStudentsData(container,colours);
 	renderSortFields(container);
