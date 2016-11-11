@@ -9,9 +9,7 @@ var render = function(){
         .classed('blocks',true)
         .html(function(d){return d})
         .style('font',function(d){
-            var x = xScale(d)+"px";
-            var y = yScale(d)+"px";
-            return "italic bold "+x+"/"+y+" Georgia, san-serif";
+            return "italic bold "+xScale(d)+"px/"+yScale(d)+"px Georgia, san-serif";
         })
 }
 

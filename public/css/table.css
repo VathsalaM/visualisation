@@ -9,3 +9,11 @@
 	width: 20px;
 	height: 20px;
 }
+
+.table-border{
+	border: .5px solid black;
+}
+
+.header{
+    border: .5px solid black;
+}
