@@ -6,11 +6,11 @@ var threshold = d3.scaleThreshold()
 var f = d3.format(".4g");
 
 var functions = {
-    "title" : function(d){ return d},
-    "number" : function(d){ return d},
-    "square" : square,
-    "log": function(d){return f(log(d))},
-    "logRound": function(d){return threshold(log(d))}
+    "Title" : function(d){ return d},
+    "n" : function(d){ return d},
+    "n square" : square,
+    "log(n)": function(d){return f(log(d))},
+    "log(n) rounded": function(d){return threshold(log(d))}
 
 }
 
@@ -27,8 +27,7 @@ var renderTable = function(data){
 
     var tr = table.selectAll('tr').data(data).enter().append('tr');
     tr.selectAll('td').data(function(d){return d.data}).enter()
-        .append('td').html(function(d){ return d})
-        .classed('table-border',true);
+        .append('td').html(function(d){ return d});
 
 };
 

@@ -1,20 +1,13 @@
-.numberTable{
-	border: 1px solid black;
-	width: 600px;
-	height: 50px;
-}
-
-.cell{
-	border: 1px solid black;
-	width: 20px;
-	height: 20px;
-}
-
 .table-border{
 	border: .5px solid black;
 	padding: 10px;
 }
 
-.header{
-    border: .5px solid black;
+table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.title{
+    font: italic bold 12px/30px Georgia, san-serif"
 }
