@@ -11,24 +11,25 @@ var functions = {
     "n square" : square,
     "log(n)": function(d){return f(log(d))},
     "log(n) rounded": function(d){return threshold(log(d))}
-
 }
 
-var createDataSet = function(){
-    return Object.keys(functions).map(function(f){
-        return {"name":f,"data":[f].concat(data.map(function(d){return functions[f](d)}))}
-    })
-}
+var tableData = [
+    {name:"Title",type:"th",func: }
+]
 
-var renderTable = function(data){
-    var table = d3.select('.container').append('table')
-                    .style('width','500px')
-                    .style('height','200px');
+//var createDataSet = function(){
+//    return Object.keys(functions).map(function(f){
+//        return {"name":f,"data":[f].concat(data.map(function(d){return functions[f](d)}))}
+//    })
+//}
 
-    var tr = table.selectAll('tr').data(data).enter().append('tr');
-    tr.selectAll('td').data(function(d){return d.data}).enter()
+var renderTable = function(){
+    var table = d3.select('.container').append('table');
+
+    var tr = table.selectAll('tr').data(Object.keys(functions)).enter().append('tr');
+    tr.selectAll('td').data(function(d){console.log(d.data[0]);return functions[d.data[0]](d.data)}).enter()
         .append('td').html(function(d){ return d});
-
 };
 
-renderTable(createDataSet);
+//renderTable(createDataSet());
+renderTable();
