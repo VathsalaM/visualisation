@@ -1,44 +1,73 @@
 const DIMENSION = 100;
 const SPACE = 50;
-var position = DIMENSION;
+const yPosition = 5;
 
-var renderSquare = function(svg,newDimension,space){
-    svg.append('rect')
+var renderSquare = function(group,position){
+    group.append('rect')
         .style('width',DIMENSION)
         .style('height',DIMENSION)
-        .style('x',newDimension+SPACE)
-        .style('y',0)
+        .style('x',position)
+        .style('y',yPosition)
         .style('rx',10)
         .style('ry',10)
         .classed('rectangle',true);
 }
 
-var renderLine = function(svg,newDimension,space){
-    svg.append('line')
-        .attr('x1',newDimension)
-        .attr('y1',0)
-        .attr('x2',newDimension)
-        .attr('y2',DIMENSION)
+var renderLine = function(group,position){
+    group.append('line')
+        .attr('x1',position+DIMENSION)
+        .attr('y1',yPosition)
+        .attr('x2',position)
+        .attr('y2',yPosition+DIMENSION)
         .classed('line',true);
 }
 
-var renderCircle = function(svg,newDimension,space){
-    svg.append('circle')
-        .attr('cx',newDimension-SPACE)
-        .attr('cy',DIMENSION/2)
-        .attr('r',DIMENSION/2);
+var renderCircle = function(group,position){
+    var radius = DIMENSION/2;
+    group.append('circle')
+        .attr('cx',position+radius)
+        .attr('cy',radius+yPosition)
+        .attr('r',radius)
+        .classed('circle',true);
 
 }
 
-var shapesData = [renderLine,renderSquare,renderCircle]
+var renderTriangle = function(group,position){
+    var point = (position+(DIMENSION/2))+","+yPosition+" "+position+","+(DIMENSION+yPosition)+" "+(position+DIMENSION)+","+(DIMENSION+yPosition);
+    group.append('polygon')
+        .attr('points',point)
+        .classed('triangle',true);
+}
+
+var shapesData = [renderSquare,renderLine,renderLine,renderCircle,renderTriangle]
+
 
 var render = function(){
-    var svg = d3.select('.container').append('svg').style('width',(DIMENSION*(shapesData.length+1))+((shapesData.length+1)*SPACE));
-        svg.selectAll('div').data(shapesData).enter()
+    var position = 5;
+
+    var svgSize = (DIMENSION*(shapesData.length+1))+((shapesData.length+1)*SPACE)
+
+    var svg = d3.select('.container').append('svg')
+        .style('width',svgSize)
+        .style('height',svgSize);
+
+    svg.selectAll('.div').data(shapesData).enter()
         .each(function(d,i){
             d(d3.select(this),position)
-            position = position+SPACE
-        });
+            position = position+DIMENSION+SPACE
+    });
 }
 
 render();
+
+//
+//var shuffle = function(){
+//    var shapesData = [renderSquare,renderLine,renderLine,renderCircle,renderTriangle]
+//
+//    setInterval(function(){
+//        shapesData.push(shapesData.shift())
+//        render(shapesData)
+//    },500);
+//}
+//
+//shuffle();

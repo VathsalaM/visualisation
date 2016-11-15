@@ -1,9 +1,22 @@
+svg{
+    stroke-width:2;
+}
+
 .line{
-    stroke: blue;
+    stroke: grey;
 }
 
 .rectangle{
     stroke: steelblue;
     fill:none;
-    stroke-width:2;
+}
+
+.circle{
+    fill:none;
+    stroke: red;
+}
+
+.triangle{
+    fill:none;
+    stroke: green;
 }
