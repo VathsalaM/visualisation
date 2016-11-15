@@ -39,7 +39,7 @@ var renderTriangle = function(group,position){
         .classed('triangle',true);
 }
 
-var shapesData = [renderSquare,renderLine,renderLine,renderCircle,renderTriangle]
+var shapesData = [renderSquare,renderLine,renderCircle,renderTriangle]
 
 
 var render = function(){
