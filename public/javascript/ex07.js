@@ -20,12 +20,15 @@ var createAxis = function(){
 
     var domain = [0,1];
 
+    var count = points.length;
+    var divisor = 10;
+
     var xScale = d3.scaleLinear().domain(domain).range([0,INNER_WIDTH])
 
     var yScale = d3.scaleLinear().domain(domain).range([INNER_HEIGHT,0])
 
-    var xAxis = d3.axisBottom(xScale).ticks(10);
-    var yAxis = d3.axisLeft(yScale).ticks(10);
+    var xAxis = d3.axisBottom(xScale).ticks(count);
+    var yAxis = d3.axisLeft(yScale).ticks(count);
 
     svg.append('g')
         .attr('transform', translate(MARGIN,INNER_HEIGHT+MARGIN))
@@ -38,12 +41,12 @@ var createAxis = function(){
         .classed('yAxis', true);
 
     var line = d3.line()
-    		.x(function(p){return xScale(p.x/10)})
-    		.y(function(p){return yScale(p.y/10)});
+    		.x(function(p){return xScale(p.x/divisor)})
+    		.y(function(p){return yScale(p.y/divisor)});
 
     var sineLine = d3.line()
-    		.x(function(p){return xScale(p.x/10)})
-    		.y(function(p){return yScale((Math.sin(p.x)+5)/10)});
+    		.x(function(p){return xScale(p.x/divisor)})
+    		.y(function(p){return yScale((Math.sin(p.x)+5)/divisor)});
 
     var group = svg.append('g')
         .attr('transform',translate(MARGIN,MARGIN));
@@ -62,14 +65,16 @@ var createAxis = function(){
     		.each(function(){
     		    var circleGroup = d3.select(this);
                 circleGroup.append('circle').attr('r', 4)
-                   .attr('cx', function(p){return xScale(p.x/10)})
-                   .attr('cy', function(p){return yScale(p.y/10)})
-                   .classed('scale',true);
+                   .attr('cx', function(p){return xScale(p.x/divisor)})
+                   .attr('cy', function(p){return yScale(p.y/divisor)})
+                   .classed('scale',true)
+                   .classed('circles',true);
 
                circleGroup.append('circle').attr('r',4)
                    .attr('cx', function(p){return xScale(p.x/10)})
-                   .attr('cy', function(p){return yScale((Math.sin(p.x)+5)/10)})
-                   .classed('scale',true);
+                   .attr('cy', function(p){return yScale((Math.sin(p.x)+5)/divisor)})
+                   .classed('scale',true)
+                   .classed('circles',true);
             })
 }
 
