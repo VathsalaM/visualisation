@@ -6,6 +6,7 @@ var randomNumberGenerator = function(n){
 	}
 	return randomNumbers;
 }
+
 var sampleData = randomNumberGenerator(20);
 var isPaused = false;
 

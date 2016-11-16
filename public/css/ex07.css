@@ -1,5 +1,9 @@
 .scale{
-    fill:white;
+    fill:none;
     stroke-width:2;
     stroke:steelblue;
+}
+
+.circles{
+    fill:white;
 }
