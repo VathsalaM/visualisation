@@ -7,3 +7,19 @@
 .circles{
     fill:white;
 }
+
+.LineScale{
+    stroke:brown;
+}
+
+
+.SineScale{
+    stroke:darkblue;
+}
+
+.charts{
+    display:inline-block;
+    border:1px solid black;
+    padding-bottom:20px;
+    margin-right:7px;
+}
