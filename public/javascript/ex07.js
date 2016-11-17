@@ -38,6 +38,19 @@ var equation = function(number){
     return (Math.sin(3*number)+1)/2;
 }
 
+var identity = function(number){
+    return number;
+}
+
+var generateCurveTensions = function(start,end,percent,whole){
+    var raise = whole*(percent/100);
+    var result = [];
+    for(var i=start;i<end;i=i+raise){
+        result.push(d3.curveCardinal.tension(i));
+    }
+    return result;
+};
+
 var addCircle = function(group,data,yFunc){
     group.append('g').selectAll('circle').data(data).enter().append('circle')
         .attr('cx',function(p){ return xScale(decimal(p.x))})
@@ -95,14 +108,10 @@ var addLine = function(svg,curve,data,className,yFunc){
     });
 }
 
-var addCharts = function(data,curves,yFunc){
-    var x = [d3.curveLinear,d3.curveLinearClosed,d3.curveStep,d3.curveBasis,d3.curveBundle,d3.curveCardinalClosed,d3.curveCardinal,d3.curveMonotoneX];
-
-    var sineData = generatePoints(sine,points[0].x,points[points.length-1].x);
-
+var addCharts = function(data,curves,yFunc,classNames){
     d3.select('.container').append('div')
         .selectAll('div')
-        .data(x)
+        .data(curves)
         .enter()
         .append('div')
         .style('width',500+'px')
@@ -110,25 +119,25 @@ var addCharts = function(data,curves,yFunc){
         .classed('charts',true)
         .each(function(d){
             var svg = createAxis(d3.select(this));
-            addLine(svg,d,[points,sineData],['LineScale','SineScale'],decimal);
-        })
-    var newDiv  = d3.select('.container').append('div');
-    var newData = generatePoints(equation,0,9);
-    var newSvg = createAxis(newDiv);
-    var func = function(number){ return number;}
-    addLine(newSvg,d3.curveLinear,[newData],['LineScale'],func)
-    var newX = [d3.curveMonotoneX,d3.curveBasis,d3.curveBundle,d3.curveCardinal,d3.curveLinear];
-    d3.select('.container').append('div').selectAll('div').data(newX).enter().append('div')
-    .each(
-        function(d){
-
-        }
-    )
-
+            addLine(svg,d,data,classNames,yFunc);
+        });
 };
 
 var renderCharts = function(){
-    addCharts(data,curves,yFunc)
+
+    var sineData = generatePoints(sine,points[0].x,points[points.length-1].x);
+    var ex09Curves = [d3.curveLinear,d3.curveLinearClosed,d3.curveStep,d3.curveBasis,d3.curveBundle,d3.curveCardinalClosed,d3.curveCardinal,d3.curveMonotoneX];
+    var ex09data = [points,sineData];
+    var ex09ClassNames = ['LineScale','SineScale'];
+    addCharts(ex09data,ex09Curves,decimal,ex09ClassNames);
+
+    var ex10Curves = [d3.curveLinear];
+    var ex10data = [generatePoints(equation,0,9)];
+    var ex10ClassNames = ['RopeScale'];
+    addCharts(ex10data,ex10Curves,identity,ex10ClassNames);
+
+    var ex11Curves = generateCurveTensions(-1,1,20,2);
+    addCharts(ex10data,ex11Curves,identity,ex10ClassNames);
 }
 
-addCharts();
+renderCharts();
