@@ -11,6 +11,7 @@ body{
 .subjects{
 	top:260px;
 	position: absolute;
+	margin-top: 10px;
 }
 .sortFields{
 	top:240px;
@@ -19,7 +20,7 @@ body{
 }
 
 .subjectDivs {
-	margin-top: 20px;
+
 	height: 18px;
 	color: white;
 	display: inline-block;

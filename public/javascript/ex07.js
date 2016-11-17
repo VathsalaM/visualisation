@@ -18,20 +18,33 @@ var translate = function(x, y){
 	return "translate("+x+","+y+")";
 };
 
+var generatePoints = function(func,start,end){
+    var result = [];
+    for(var i=start;i<=end;i++){
+        result.push({x:i,y:func(i)});
+    }
+    return result;
+}
+
 var decimal = function(number){
     return number/DIVISOR;
 };
 
 var sine = function(number){
-    return decimal(Math.sin(number)+5);
+    return Math.sin(number)+5;
 };
 
-var addCircle = function(group,cx,cy,x,y){
-    group.append('circle').attr('r', 4)
-       .attr('cx', function(p){return xScale(cx(p[x]))})
-       .attr('cy', function(p){return yScale(cy(p[y]))})
-       .classed('scale',true)
-       .classed('circles',true);
+var equation = function(number){
+    return (Math.sin(3*number)+1)/2;
+}
+
+var addCircle = function(group,data,yFunc){
+    group.append('g').selectAll('circle').data(data).enter().append('circle')
+        .attr('cx',function(p){ return xScale(decimal(p.x))})
+        .attr('cy',function(p){ return yScale(yFunc(p.y))})
+        .classed('scale',true)
+        .classed('circles',true)
+        .attr('r',4);
 };
 
 var appendAxis = function(svg,axis,x,y){
@@ -48,13 +61,13 @@ var createLine = function(curve,xFunc,yFunc,xKey,yKey){
 }
 
 var appendLine = function(group,line,points,className){
-    group.append('path')
+    group.append('g').append('path')
         .classed('scale', true)
         .classed(className,true)
         .attr('d', line(points));
 };
 
-var createAxis = function(div,curve){
+var createAxis = function(div){
     var svg = div.append('svg')
         .attr('width', WIDTH)
         .attr('height', HEIGHT);
@@ -68,28 +81,26 @@ var createAxis = function(div,curve){
 
     appendAxis(svg,xAxis,MARGIN,INNER_HEIGHT+MARGIN);
     appendAxis(svg,yAxis,MARGIN,MARGIN);
+    return svg;
+};
 
-    var line = createLine(curve,decimal,decimal,'x','y');
-    var sineLine = createLine(curve,decimal,sine,'x','x');
-
+var addLine = function(svg,curve,data,className,yFunc){
     var group = svg.append('g')
         .attr('transform',translate(MARGIN,MARGIN));
 
-    appendLine(group,line,points,'LineScale');
-    appendLine(group,sineLine,points,'SineScale');
+    data.forEach(function(d,i){
+        var line = createLine(curve,decimal,yFunc,'x','y');
+        appendLine(group,line,d,className[i]);
+        addCircle(group,d,yFunc);
+    });
+}
 
-    group.selectAll('.circlePoint').data(points)
-        .enter().append('g')
-        .each(function(){
-            var circleGroup = d3.select(this);
-            addCircle(circleGroup,decimal,decimal,'x','y');
-            addCircle(circleGroup,decimal,sine,'x','x');
-        });
-};
-
-var addCharts = function(){
+var addCharts = function(data,curves,yFunc){
     var x = [d3.curveLinear,d3.curveLinearClosed,d3.curveStep,d3.curveBasis,d3.curveBundle,d3.curveCardinalClosed,d3.curveCardinal,d3.curveMonotoneX];
-    d3.select('.container')
+
+    var sineData = generatePoints(sine,points[0].x,points[points.length-1].x);
+
+    d3.select('.container').append('div')
         .selectAll('div')
         .data(x)
         .enter()
@@ -98,8 +109,26 @@ var addCharts = function(){
         .style('height',500+'px')
         .classed('charts',true)
         .each(function(d){
-            createAxis(d3.select(this),d);
+            var svg = createAxis(d3.select(this));
+            addLine(svg,d,[points,sineData],['LineScale','SineScale'],decimal);
         })
+    var newDiv  = d3.select('.container').append('div');
+    var newData = generatePoints(equation,0,9);
+    var newSvg = createAxis(newDiv);
+    var func = function(number){ return number;}
+    addLine(newSvg,d3.curveLinear,[newData],['LineScale'],func)
+    var newX = [d3.curveMonotoneX,d3.curveBasis,d3.curveBundle,d3.curveCardinal,d3.curveLinear];
+    d3.select('.container').append('div').selectAll('div').data(newX).enter().append('div')
+    .each(
+        function(d){
+
+        }
+    )
+
 };
+
+var renderCharts = function(){
+    addCharts(data,curves,yFunc)
+}
 
 addCharts();

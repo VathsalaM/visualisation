@@ -13,6 +13,12 @@ studentData = [
 	{name:'pokemon',subject:'social studies',score:32}
 ];
 
+var width ,height ;
+
+var px = function(num){
+    return num+'px';
+}
+
 var renderStudentsData = function(container,colours){
 	var students = container.append('div').classed('students',true);
 	var studentDiv = students.selectAll('div').data(studentData);
@@ -37,7 +43,7 @@ var renderSortFields = function(container){
 }
 
 var renderSubjectFields = function(container,colours){
-	var subjects = container.append('div').text('Subjects: ').classed('subjects',true);
+	var subjects = container.append('div').style('width',width+'px').text('Subjects: ').classed('subjects',true);
 	var subjectDiv = subjects.selectAll('div').data(generateSubjectsList());
 	subjectDiv.enter().append('div')
 		.text(function(d){ return d})
@@ -51,10 +57,17 @@ var visualizeStudentData = function(){
 	var colours = d3.scaleOrdinal(d3.schemeCategory10)
 					.domain(generateSubjectsList());
 
-	var container = d3.select('.container');	
-	renderStudentsData(container,colours);
-	renderSortFields(container);
-	renderSubjectFields(container,colours);
+	var container = d3.select('.container');
+
+    width = +container.attr('width');
+    height = +container.attr('height');
+
+    var div = container.append('div').classed('ex1',true).classed('exercise',true)
+	    .style('width',px(width)).style('height',px(height));
+
+	renderStudentsData(div,colours);
+	renderSortFields(div);
+	renderSubjectFields(div,colours);
 
 }
 

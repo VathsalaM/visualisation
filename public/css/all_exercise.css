@@ -5,46 +5,8 @@ body{
 }
 .exercise{
     float:left;
-    position:absolute;
     background:beige;
     border: 2px solid black;
+    padding-right:10px;
+    margin:5px;
 }
-
-.students{
-	position: absolute;
-
-}
-.subjects{
-	position: absolute;
-}
-.sortFields{
-	position: absolute;
-}
-
-.subjectDivs {
-	color: white;
-	display: inline-block;
-	border: 1.5px solid white;
-	padding-top: 2px;
-	border-radius: 7px;
-	text-align:center;
-	color: white;
-}
-
-button{
-	height: 20px;
-	background-color: #E7E7E7;
-	border: 1px solid white;
-	border-radius: 10px;
-	box-shadow: 0px 2px 0px #888888;
-}
-
-.data{
-	position: absolute;
-	height: 16px;
-	border: 1.5px solid white;
-	border-radius: 7px;
-	text-align:center;
-	color: white;
-}
-
