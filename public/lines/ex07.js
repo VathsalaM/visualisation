@@ -38,9 +38,14 @@ var equation = function(number){
     return (Math.sin(3*number)+1)/2;
 }
 
+var ex12Equation = function(number){
+    return Math.sin(3*number)+5;
+}
+
 var identity = function(number){
     return number;
 }
+
 
 var generateCurveTensions = function(start,end,percent,whole){
     var raise = whole*(percent/100);
@@ -126,7 +131,8 @@ var addCharts = function(data,curves,yFunc,classNames){
 var renderCharts = function(){
 
     var sineData = generatePoints(sine,points[0].x,points[points.length-1].x);
-    var ex09Curves = [d3.curveLinear,d3.curveLinearClosed,d3.curveStep,d3.curveBasis,d3.curveBundle,d3.curveCardinalClosed,d3.curveCardinal,d3.curveMonotoneX];
+    var ex09Curves = [d3.curveLinear,d3.curveLinearClosed,d3.curveStep,d3.curveBasis,d3.curveBundle,
+                        d3.curveCardinalClosed,d3.curveCardinal,d3.curveMonotoneX];
     var ex09data = [points,sineData];
     var ex09ClassNames = ['LineScale','SineScale'];
     addCharts(ex09data,ex09Curves,decimal,ex09ClassNames);
@@ -138,6 +144,12 @@ var renderCharts = function(){
 
     var ex11Curves = generateCurveTensions(-1,1,20,2);
     addCharts(ex10data,ex11Curves,identity,ex10ClassNames);
+
+
+    var ex12data = [generatePoints(function(number){return ex12Equation(number)},0,10)];
+    console.log(ex12data);
+    var ex12ClassNames = ['AreaScale'];
+    addCharts(ex12data,ex10Curves,d3.area(ex12data),ex12ClassNames);
 }
 
 renderCharts();
