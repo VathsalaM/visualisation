@@ -147,7 +147,6 @@ var renderCharts = function(){
 
 
     var ex12data = [generatePoints(function(number){return ex12Equation(number)},0,10)];
-    console.log(ex12data);
     var ex12ClassNames = ['AreaScale'];
     addCharts(ex12data,ex10Curves,d3.area(ex12data),ex12ClassNames);
 }
