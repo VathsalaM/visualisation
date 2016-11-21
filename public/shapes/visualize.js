@@ -2,6 +2,9 @@ const DIMENSION = 100;
 const SPACE = 50;
 const yPosition = 5;
 
+var px = function(num){
+    return num+'px';
+}
 var renderSquare = function(group,position,dimension){
     group.append('rect')
         .style('width',dimension)
@@ -57,39 +60,20 @@ var render = function(){
 
     var div = container.append('div').style('width',px(div)).style('height',px(height))
         .classed('exercise',true).classed('ex2',true)
-    var dimension = width/shapesData.length;
-    var SPACE = dimension/(shapesData.length+shapesData.length+100);
 
     var svg = div.append('svg')
         .style('width',width)
         .style('height',height);
 
-    console.log(width)
     svg.selectAll('.div').data(shapesData).enter()
         .each(function(d,i){
-            if(rightPosition > (width-space)){
-                console.log("came in")
+            if(rightPosition > (width-DIMENSION)){
                 topPosition = topPosition+dimension+padding;
                 rightPosition = padding;
             }
-
-            d(d3.select(this),{x:rightPosition,y:topPosition},dimension)
-//            position = position+dimension+SPACE
-            rightPosition = rightPosition+dimension+space;
-            console.log("top: ",topPosition,"right: ",rightPosition);
+            d(d3.select(this),{x:rightPosition,y:topPosition},DIMENSION)
+            rightPosition = rightPosition+DIMENSION+space;
     });
 }
 
 render();
-
-//
-//var shuffle = function(){
-//    var shapesData = [renderSquare,renderLine,renderLine,renderCircle,renderTriangle]
-//
-//    setInterval(function(){
-//        shapesData.push(shapesData.shift())
-//        render(shapesData)
-//    },500);
-//}
-//
-//shuffle();
