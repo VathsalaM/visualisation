@@ -1,34 +1,33 @@
-.scale{
-    fill:none;
-    stroke-width:2;
-    stroke:steelblue;
+.scale {
+    fill: none;
+    stroke-width: 2;
+    stroke: steelblue;
 }
 
-.circles{
-    fill:white;
+.circles {
+    fill: white;
 }
 
-.LineScale{
-    stroke:brown;
+.LineScale {
+    stroke: brown;
 }
 
-
-.SineScale{
-    stroke:darkblue;
+.SineScale {
+    stroke: darkblue;
 }
 
-.charts{
-    display:inline-block;
-    border:1px solid black;
-    padding-bottom:20px;
-    margin-right:7px;
+.charts {
+    display: inline-block;
+    border: 1px solid black;
+    padding-bottom: 20px;
+    margin-right: 7px;
 }
 
-.RopeScale{
-    stroke:steelblue;
+.RopeScale {
+    stroke: steelblue;
 }
 
-.AreaScale{
-    stroke:steelblue;
-    fill:steelblue;
+.AreaScale {
+    stroke: steelblue;
+    fill: steelblue;
 }
